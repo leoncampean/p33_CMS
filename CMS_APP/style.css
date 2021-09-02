@@ -1,3 +1,6 @@
+html {
+  background-color: lightcyan;
+}
 table {
     margin-top: 100px;
     border-collapse: collapse;
@@ -39,4 +42,25 @@ h1 {
 .Adaugare:hover {
   box-shadow: whitesmoke;
   background-color: wheat;
+}
+.Adaugare span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.Adaugare span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+.Adaugare:hover span {
+  padding-right: 25px;
+}
+.Adaugare:hover span:after {
+  opacity: 1;
+  right: 0;
 }
