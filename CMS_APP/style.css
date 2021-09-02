@@ -25,6 +25,7 @@ h1 {
   background-color: #001E6C;
   color:white;
   font-family: fantasy;
+  cursor: pointer;
 }
 .Adaugare {
   margin-top: 20px;
