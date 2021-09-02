@@ -73,12 +73,14 @@ h1 {
 }
 .edit {
   border-color: yellowgreen;
+  font-size: 15px;
 }
 .edit:hover {
   background-color:yellowgreen;
 }
 .delete {
   border-color: tomato;
+  font-size: 15px;
 }
 .delete:hover {
   background-color: tomato;
