@@ -10,5 +10,7 @@ table {
 th {
   background-color: Blue;
   color:white;
+  font-size: large;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 tr:hover {background-color:lightblue;}
