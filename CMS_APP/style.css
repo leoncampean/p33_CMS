@@ -2,7 +2,7 @@ html {
   background-color: lightcyan;
 }
 table {
-    margin-top: 100px;
+    margin-top: 20px;
     border-collapse: collapse;
     width: 100%;
   }  
@@ -27,7 +27,7 @@ h1 {
   font-family: fantasy;
 }
 .Adaugare {
-  margin-top: 50px;
+  margin-top: 20px;
   font-size: large;
   background-color: #FFAA4C;
   padding: 15px 32px;
