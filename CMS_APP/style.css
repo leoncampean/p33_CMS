@@ -8,7 +8,7 @@ table {
   }  
   th, td {
     padding: 8px;
-    text-align: left;
+    text-align: center;
     border-style:ridge;
     border-color: blue;
 }
@@ -70,4 +70,16 @@ h1 {
 .Adaugare:active {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
+}
+.edit {
+  border-color: yellowgreen;
+}
+.edit:hover {
+  background-color:yellowgreen;
+}
+.delete {
+  border-color: tomato;
+}
+.delete:hover {
+  background-color: tomato;
 }
