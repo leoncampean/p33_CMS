@@ -75,6 +75,7 @@ h1 {
 .edit {
   border-color: yellowgreen;
   font-size: 15px;
+  cursor: pointer;
 }
 .edit:hover {
   background-color:yellowgreen;
@@ -82,6 +83,7 @@ h1 {
 .delete {
   border-color: tomato;
   font-size: 15px;
+  cursor: pointer;
 }
 .delete:hover {
   background-color: tomato;
