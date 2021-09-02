@@ -108,15 +108,26 @@ h1 {
 }
 .hide {
   display: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-style: double;
+  border-radius: 14px;
+  border-width: 5px;
+  border-color:#001E6C;
 }
 .Adaugare:hover + .hide {
-  display: block;
-  color: red;
+  display: inline-block;
+  color: black;
+  background-color :#FFAA4C;
+  font-size: 20px;
 }
 .edit {
   border-color: yellowgreen;
   font-size: 15px;
   cursor: pointer;
+  border-style: double;
+  border-radius: 14px;
+  border-width: 10px;
 }
 .edit:hover {
   background-color:yellowgreen;
@@ -125,6 +136,9 @@ h1 {
   border-color: tomato;
   font-size: 15px;
   cursor: pointer;
+  border-style: double;
+  border-radius: 14px;
+  border-width: 10px;
 }
 .delete:hover {
   background-color: tomato;
