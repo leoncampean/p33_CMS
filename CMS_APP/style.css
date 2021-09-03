@@ -157,6 +157,7 @@ h1 {
 
 .edit:hover {
   background-color:yellowgreen;
+  color: white;
 }
 
 .delete {
@@ -170,4 +171,5 @@ h1 {
 
 .delete:hover {
   background-color: tomato;
+  color: white;
 }
