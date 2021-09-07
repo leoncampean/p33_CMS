@@ -15,7 +15,7 @@
         <script src="./js/index.js"></script>
     </head>
     <body style="background: rgb(76,255,250);
-    background: linear-gradient(90deg, rgba(76,255,250,1) 0%, rgba(255,255,255,1) 50%, rgba(255,170,76,1) 100%);">
+    background: linear-gradient(90deg, #4cfffa 0%, rgba(255,255,255,1) 50%, rgba(255,170,76,1) 100%);">
       <ul>
         <li><a class="active" href="#home">Home</a></li>
         <li><a href="#news">News</a></li>
@@ -31,7 +31,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Adaugare membru</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" id="inchidere-sus" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
         </button>
         </div>
@@ -64,7 +64,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Inchide</button>
+        <button type="button" id="inchidere" class="btn btn-secondary" data-dismiss="modal">Inchide</button>
         <button type="button" class="btn btn-primary" id="add-employee-button">Adaugare memebru</button>
       </div>
     </div>

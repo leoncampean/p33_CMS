@@ -7,6 +7,8 @@ window.onload = () => {
     initializeTableData();
 
     document.getElementById("add-employee-button").addEventListener("click", addNewEmployee, false);
+    document.getElementById("inchidere").addEventListener("click", resetModalForm, false);
+    document.getElementById("inchidere-sus").addEventListener("click", resetModalForm, false);
     document.querySelectorAll(".close-employee-modal").forEach(e =>{
         e.addEventListener("click", closeModal, false);
     });
@@ -57,11 +59,22 @@ function addNewEmployee(){
     employeeSex = document.getElementById("sex-form").value;
     employeeBirthdate = document.getElementById("data-form").value;
 
-    var reader = new FileReader();
-
     // Populate table once the image is ready
 
-    completeAddTableRowAction(employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate);
+    if (validateEmployeeFields(employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate)) {
+        employeeId = JSON.parse(localStorage.getItem(TABLE_ROW_NEXT_ID));
+        allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA))
+
+        newEmployee = new Employee(employeeId++, employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate, '');
+        allEmployees.push(newEmployee);
+        // to do call method to sort items
+
+        localStorage.setItem(TABLE_ROW_NEXT_ID, JSON.stringify(employeeId));
+        localStorage.setItem(TABLE_DATA, JSON.stringify(allEmployees));
+
+        maintainEmployeeOrder()
+        resetModalForm();
+    }
     
 }
 
@@ -76,23 +89,6 @@ function Employee(employeeId, lastname, firstname, email, sex, birthdate, profil
     this.profilePic= profilePic;
 }
 
-// function needed to be called from image loaded callback and addNewEmployee function body
-function completeAddTableRowAction(employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate, employeeProfilePic = '') {
-    //formIsValid = validateEmployeeFields(employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate);
-
-        employeeId = JSON.parse(localStorage.getItem(TABLE_ROW_NEXT_ID));
-        allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA));
-
-        newEmployee = new Employee(employeeId++, employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate, employeeProfilePic);
-        allEmployees.push(newEmployee);
-        // to do call method to sort items
-
-        localStorage.setItem(TABLE_ROW_NEXT_ID, JSON.stringify(employeeId));
-        localStorage.setItem(TABLE_DATA, JSON.stringify(allEmployees));
-
-        maintainEmployeeOrder()
-        resetModalForm();
-}
 
 function previewProfilePicture(){
     employeeProfilePicPreview = document.getElementById("profile-picture").files[0];
@@ -194,18 +190,8 @@ function maintainEmployeeOrder() {
 
    /* if(fieldToSortBy == 'name'){
         if(sortOrder == 'ascendent'){
-            allEmployees.sort(compareNamesAsc);
-        }else{
-            allEmployees.sort(compareNamesDesc);
-        }
-    }else if(fieldToSortBy == 'birthdate'){
-        if(sortOrder == 'ascendent'){
-            allEmployees.sort(compareBirthdateAsc);
-        }else{
-            allEmployees.sort(compareBirthdateDesc);
-        }
-    } */
-    
+            @@@@@@allEmployees.sort(compareNamesAsc);
+*/  
     populateTable(allEmployees);
     setDelete();
 }
