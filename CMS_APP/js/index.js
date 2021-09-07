@@ -9,6 +9,7 @@ window.onload = () => {
     document.getElementById("add-employee-button").addEventListener("click", addNewEmployee, false);
     document.getElementById("inchidere").addEventListener("click", resetModalForm, false);
     document.getElementById("inchidere-sus").addEventListener("click", resetModalForm, false);
+    document.getElementById("sortare_m").addEventListener("click", maintainEmployeeOrder, false);
     document.querySelectorAll(".close-employee-modal").forEach(e =>{
         e.addEventListener("click", closeModal, false);
     });
@@ -25,13 +26,17 @@ function initializeTableData() {
             new Employee(employeeNextId++,'Mcgregor', 'Connor', 'connor@iCantFightAnymore.com', 'Femeie', '1980-12-10', ''),
             new Employee(employeeNextId++,'Cristiano', 'Penaldo', 'overratedASF@babygirl.com', 'Femeie', '2002-09-20', ''),
             new Employee(employeeNextId++,'Norris', 'Chuck', 'king@yourboss.com', 'King', '1989-12-10', ''),
+            new Employee(employeeNextId++,'Albert0', 'Grasu', 'rap@manele.com', 'Indecis', '1999-10-10', ''),
+            new Employee(employeeNextId++,'Besleaga', 'Marin', 'marin@beseleaga.com', 'Barbat', '1989-12-10', ''),
+
         ]
 
         localStorage.setItem(TABLE_DATA, JSON.stringify(employees));
         localStorage.setItem(TABLE_ROW_NEXT_ID, JSON.stringify(employeeNextId));
     }
 
-    maintainEmployeeOrder();
+    populateTable(employees);
+    setDelete();
 }
 
 function populateTable(employees) {
@@ -124,9 +129,8 @@ function compareNamesAsc(a, b) {
       return 0;
 }
 
-// the smaller the year, the older the person
 function compareBirthdateAsc(a, b) {
-    ageA = parseInt(moment(a.birthdate).fromNow().split(' ')[0]); // "13 years ago" --> 13 as an int 
+    ageA = parseInt(moment(a.birthdate).fromNow().split(' ')[0]);
     ageB = parseInt(moment(b.birthdate).fromNow().split(' ')[0]);
     
     if (ageA < ageB){
@@ -149,7 +153,7 @@ function compareNamesDesc(a, b) {
 }
 
 function compareBirthdateDesc(a, b) {
-    ageA = parseInt(moment(a.birthdate).fromNow().split(' ')[0]); // "13 years ago" --> 13 as an int 
+    ageA = parseInt(moment(a.birthdate).fromNow().split(' ')[0]);
     ageB = parseInt(moment(b.birthdate).fromNow().split(' ')[0]);
     
     if (ageA < ageB){
@@ -185,13 +189,7 @@ function deleteEmployeeRow(htmlDeleteElement) {
 function maintainEmployeeOrder() {
     allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA));
 
-    //fieldToSortBy = document.getElementById("table-sort-by").value;
-    //sortOrder = document.getElementById("table-sort-order").value;
-
-   /* if(fieldToSortBy == 'name'){
-        if(sortOrder == 'ascendent'){
-            @@@@@@allEmployees.sort(compareNamesAsc);
-*/  
+    allEmployees.sort(compareNamesAsc);
     populateTable(allEmployees);
     setDelete();
 }
