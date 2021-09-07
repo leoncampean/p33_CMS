@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width-device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="Stylesheet" href="style.css">
         <title>CMS App</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -48,22 +49,27 @@
             <input type="text" class="form-control" id="email-form">
           </div>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Sex:</label>
-            <input type="text" class="form-control" id="sex-form">
+            <label for="gender-dropdown">Sex</label>
+            <select class="form-select form-control" id="sex-form">
+              <option value="" selected disabled>Selectati sexul</option>
+              <option value="Barbat">Barbat</option>
+              <option value="Femeie">Femeie</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Data nasterii:</label>
-            <input type="text" class="form-control" id="data-form">
+            <input type="date" class="form-control" id="data-form">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Inchide</button>
-        <button type="button" class="btn btn-primary">Adaugare memebru</button>
+        <button type="button" class="btn btn-primary" id="add-employee-button">Adaugare memebru</button>
       </div>
     </div>
   </div>
 </div>
+      <div class="col-lg-auto">
         <table>
             <thead>
               <th>Nume</th>
@@ -71,74 +77,10 @@
               <th>Email</th>
               <th>Sex</th>
               <th>Data Nasterii</th>
-              <th>Poza</th>
               <th>Actiuni</th>
             </thead>
-            <tbody>
-            <tr>
-              <td>Campean</td>
-              <td>Leon</td>
-              <td>leoncampean90@gmai.com</td>
-              <td>Masculin</td>
-              <td>17.03.2000</td>
-              <td>picture</td>
-              <td><button class="edit" type="submit">Edit</button> / <button class="delete" type="submit">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Campean</td>
-              <td>Leon</td>
-              <td>leoncampean90@gmai.com</td>
-              <td>Masculin</td>
-              <td>17.03.2000</td>
-              <td>picture</td>
-              <td><button class="edit" type="submit">Edit</button> / <button class="delete" type="submit">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Campean</td>
-              <td>Leon</td>
-              <td>leoncampean90@gmai.com</td>
-              <td>Masculin</td>
-              <td>17.03.2000</td>
-              <td>picture</td>
-              <td><button class="edit" type="submit">Edit</button> / <button class="delete" type="submit">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Campean</td>
-              <td>Leon</td>
-              <td>leoncampean90@gmai.com</td>
-              <td>Masculin</td>
-              <td>17.03.2000</td>
-              <td>picture</td>
-              <td><button class="edit" type="submit">Edit</button> / <button class="delete" type="submit">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Campean</td>
-              <td>Leon</td>
-              <td>leoncampean90@gmai.com</td>
-              <td>Masculin</td>
-              <td>17.03.2000</td>
-              <td>picture</td>
-              <td><button class="edit" type="submit">Edit</button> / <button class="delete" type="submit">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Campean</td>
-              <td>Leon</td>
-              <td>leoncampean90@gmai.com</td>
-              <td>Masculin</td>
-              <td>17.03.2000</td>
-              <td>picture</td>
-              <td><button class="edit" type="submit">Edit</button> / <button class="delete" type="submit">Delete</button></td>
-            </tr>
-            <tr>
-              <td>Campean</td>
-              <td>Leon</td>
-              <td>leoncampean90@gmai.com</td>
-              <td>Masculin</td>
-              <td>17.03.2000</td>
-              <td>picture</td>
-              <td><button class="edit" type="submit">Edit</button> / <button class="delete" type="submit">Delete</button></td>
-            </tr>
-            </tbody>
+            <tbody id="employees-table-body"></tbody>
           </table>
+      </div>
     </body>
 </html>
