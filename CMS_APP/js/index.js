@@ -245,7 +245,7 @@ function validateEmployeeFields(employeeLastName, employeeFristname, employeeEma
         alert("Email-ul este un camp obligatoriu !")
         return false;
     }else{
-        // regex validation for email:  https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+        //regex validation for email:  https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
         const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if(! re.test(employeeEmail)) {
             alert("Email-ul introdus nu este valid !")

@@ -1,5 +1,6 @@
 html {
-  background-color: lightcyan;
+  background: rgb(76,255,250);
+  background: linear-gradient(90deg, rgba(76,255,250,1) 0%, rgba(255,255,255,1) 50%, rgba(255,170,76,1) 100%);
 }
 
 ul {
@@ -42,7 +43,7 @@ li a:hover:not(.active) {
 }
 
 table {
-    margin-top: 20px;
+    margin-top: 50px;
     border-collapse: collapse;
     width: 100%;
 }
@@ -64,7 +65,10 @@ th {
   
 }
 
-tr:hover {background-color:lightblue;}
+tr:hover {
+  background: rgb(255,170,76);
+  background: linear-gradient(90deg, rgba(255,170,76,1) 38%, rgba(76,255,250,1) 67%);
+}
 
 h1 {
   font-size: 50px;
