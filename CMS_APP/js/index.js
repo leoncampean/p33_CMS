@@ -1,7 +1,28 @@
-
 const TABLE_DATA = 'employees';
 const TABLE_ROW_NEXT_ID = 'employeeNextId';
 moment.locale('en')
+// Import the functions you need from the SDKs you need
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyB0TH0kmRQAjdhDW3UuRw-b2kWgnfI67Ig",
+  authDomain: "leon-cms.firebaseapp.com",
+  projectId: "leon-cms",
+  storageBucket: "leon-cms.appspot.com",
+  messagingSenderId: "541291432314",
+  appId: "1:541291432314:web:47239cdab5d9eeb0f82ec3",
+  measurementId: "G-73S06D1ZXJ"
+};
+
+var app;
+var db; 
+
 window.onload = () => {
 
     initializeTableData();
@@ -13,14 +34,16 @@ window.onload = () => {
     document.querySelectorAll(".close-employee-modal").forEach(e =>{
         e.addEventListener("click", closeModal, false);
     });
-
+    // Initialize Firebase
+    app = initializeApp(firebaseConfig);
+    console.log(app);
 }
 
 function initializeTableData() {
 
-    employees = JSON.parse(localStorage.getItem(TABLE_DATA));
+    var employees = JSON.parse(localStorage.getItem(TABLE_DATA));
     if (employees == undefined) {
-        employeeNextId = 0
+        var employeeNextId = 0
         employees = [
             new Employee(employeeNextId++,'Campean', 'Leon', 'leon.campean@principal.com', 'Barbat', '2000-03-17', ''),
             new Employee(employeeNextId++,'Mcgregor', 'Connor', 'connor@iCantFightAnymore.com', 'Femeie', '1980-12-10', ''),
@@ -40,7 +63,7 @@ function initializeTableData() {
 }
 
 function populateTable(employees) {
-    tableBody = document.getElementById("employees-table-body")
+    var tableBody = document.getElementById("employees-table-body")
     tableBody.innerHTML = '';
 
     employees.forEach(e => {
@@ -56,7 +79,7 @@ function populateTable(employees) {
 }
 
 function addNewEmployee(){
-    modal = document.getElementById("add-employee-modal");
+    var modal = document.getElementById("add-employee-modal");
 
     employeeLastName = document.getElementById("nume-form").value;
     employeeFristname = document.getElementById("prenume-form").value;
@@ -81,6 +104,12 @@ function addNewEmployee(){
         resetModalForm();
     }
     
+}
+
+// Initialize Firebase
+function setupFirebase() {
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
 }
 
 // creates new employee object
