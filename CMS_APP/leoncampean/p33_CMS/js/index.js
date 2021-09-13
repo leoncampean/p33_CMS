@@ -4,7 +4,7 @@ moment.locale('en')
 // Import the functions you need from the SDKs you need
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc} from "https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -39,6 +39,7 @@ window.onload = async () => {
     db = getFirestore(app);
     var lista = await getEmployees(db);
     populateTable(lista);
+    setDelete();
 }
 
 // function initializeTableData() {
@@ -69,8 +70,8 @@ function populateTable(employees) {
 
     employees.forEach(e => {
         tableBody.innerHTML += `<tr employee-id=${e.employeeId}>
-            <td>${e.lastname}</td>
-            <td>${e.firstname}</td>
+            <td>${e.name}</td>
+            <td>${e.surname}</td>
             <td>${e.email}</td>
             <td>${e.sex}</td>
             <td>${e.birthdate}</td>
@@ -93,8 +94,8 @@ async function addNewEmployee(){
     if (validateEmployeeFields(employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate, )) {
         
         var newEmployee = {
-            name : employeeLastName,
-            surname : employeeFristname,
+            nume : employeeLastName,
+            prenume : employeeFristname,
             email : employeeEmail,
             sex : employeeSex,
             birthdate : employeeBirthdate,
@@ -144,9 +145,14 @@ function previewProfilePicture(){
     reader.readAsDataURL(employeeProfilePicPreview)
 }
 async function getEmployees(db) {
+    var employeeList = [];
     const employeeCol = collection(db, 'employees');
     const employeeSnapshot = await getDocs(employeeCol);
-    const employeeList = employeeSnapshot.docs.map(doc => doc.data());
+    employeeSnapshot.docs.forEach(doc => {
+        var employee = doc.data();
+        employee.employeeId = doc.id;
+        employeeList.push(employee);
+    });
     return employeeList;
 }
 
@@ -160,10 +166,10 @@ function resetModalForm(){
 }
 
 function compareNamesAsc(a, b) {
-    if ((a.lastname + a.firstname) < (b.lastname + b.firstname)){
+    if ((a.name + a.surname) < (b.name + b.surname)){
         return -1;
       }
-      if ((a.lastname + a.firstname) > (b.lastname + b.firstname)){
+      if ((a.name + a.surname) > (b.name + b.surname)){
         return 1;
       }
       return 0;
@@ -183,10 +189,10 @@ function compareBirthdateAsc(a, b) {
 }
 
 function compareNamesDesc(a, b) {
-    if ((a.lastname + a.firstname) < (b.lastname + b.firstname)) {
+    if ((a.name + a.surname) < (b.name + b.surname)) {
         return 1;
       }
-      if ((a.lastname + a.firstname) > (b.lastname + b.firstname)){
+      if ((a.name + a.surname) > (b.name + b.surname)){
         return -1;
       }
       return 0;
@@ -218,16 +224,23 @@ function deleteEmployeeRow(htmlDeleteElement) {
         var employeeToDeleteId = rowToBeDeleted.getAttribute("employee-id");
         rowToBeDeleted.remove();
 
-        var allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA));
-        var allEmployees = allEmployees.filter(e => e.employeeId != employeeToDeleteId);
+        deleteEmployeeDocument(employeeToDeleteId);
+    }
+}
 
-        localStorage.setItem(TABLE_DATA, JSON.stringify(allEmployees));
+async function deleteEmployeeDocument(documentId) {
+    try {
+        await deleteDoc(doc(db, TABLE_DATA, documentId));
+        console.log('Successfully deleted member with id $(documentId)');
+    }
+    catch (exception) {
+        console.log(exception);
     }
 }
 
 //Sorts and re-prints whole table
-function maintainEmployeeOrder() {
-    var allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA));
+async function maintainEmployeeOrder() {
+    var allEmployees = await getEmployees(db);
 
     allEmployees.sort(compareNamesAsc);
     populateTable(allEmployees);
