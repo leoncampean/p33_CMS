@@ -23,7 +23,7 @@ const firebaseConfig = {
 var app;
 var db; 
 
-window.onload = () => {
+window.onload = async () => {
 
     //initializeTableData();
 
@@ -36,7 +36,9 @@ window.onload = () => {
     });
     // Initialize Firebase
     app = initializeApp(firebaseConfig);
-    db = getFirestore(app)
+    db = getFirestore(app);
+    var lista = await getEmployees(db);
+    populateTable(lista);
 }
 
 // function initializeTableData() {
@@ -103,6 +105,8 @@ async function addNewEmployee(){
 
        // maintainEmployeeOrder()
         resetModalForm();
+        var lista = await getEmployees(db);
+        populateTable(lista);
     }
 }
 
@@ -138,6 +142,12 @@ function previewProfilePicture(){
     });
 
     reader.readAsDataURL(employeeProfilePicPreview)
+}
+async function getEmployees(db) {
+    const employeeCol = collection(db, 'employees');
+    const employeeSnapshot = await getDocs(employeeCol);
+    const employeeList = employeeSnapshot.docs.map(doc => doc.data());
+    return employeeList;
 }
 
 function resetModalForm(){
