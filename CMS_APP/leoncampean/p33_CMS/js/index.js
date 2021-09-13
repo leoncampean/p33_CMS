@@ -25,7 +25,7 @@ var db;
 
 window.onload = () => {
 
-    initializeTableData();
+    //initializeTableData();
 
     document.getElementById("add-employee-button").addEventListener("click", addNewEmployee, false);
     document.getElementById("inchidere").addEventListener("click", resetModalForm, false);
@@ -36,31 +36,30 @@ window.onload = () => {
     });
     // Initialize Firebase
     app = initializeApp(firebaseConfig);
-    console.log(app);
+    db = getFirestore(app)
 }
 
-function initializeTableData() {
+// function initializeTableData() {
 
-    var employees = JSON.parse(localStorage.getItem(TABLE_DATA));
-    if (employees == undefined) {
-        var employeeNextId = 0
-        employees = [
-            new Employee(employeeNextId++,'Campean', 'Leon', 'leon.campean@principal.com', 'Barbat', '2000-03-17', ''),
-            new Employee(employeeNextId++,'Mcgregor', 'Connor', 'connor@iCantFightAnymore.com', 'Femeie', '1980-12-10', ''),
-            new Employee(employeeNextId++,'Cristiano', 'Penaldo', 'overratedASF@babygirl.com', 'Femeie', '2002-09-20', ''),
-            new Employee(employeeNextId++,'Norris', 'Chuck', 'king@yourboss.com', 'King', '1989-12-10', ''),
-            new Employee(employeeNextId++,'Albert0', 'Grasu', 'rap@manele.com', 'Indecis', '1999-10-10', ''),
-            new Employee(employeeNextId++,'Besleaga', 'Marin', 'marin@beseleaga.com', 'Barbat', '1989-12-10', ''),
+//     var employees = JSON.parse(localStorage.getItem(TABLE_DATA));
+//     if (employees == undefined) {
+//         var employeeNextId = 0
+//         employees = [
+//             new Employee(employeeNextId++,'Campean', 'Leon', 'leon.campean@principal.com', 'Barbat', '2000-03-17', ''),
+//             new Employee(employeeNextId++,'Mcgregor', 'Connor', 'connor@iCantFightAnymore.com', 'Femeie', '1980-12-10', ''),
+//             new Employee(employeeNextId++,'Cristiano', 'Penaldo', 'overratedASF@babygirl.com', 'Femeie', '2002-09-20', ''),
+//             new Employee(employeeNextId++,'Norris', 'Chuck', 'king@yourboss.com', 'King', '1989-12-10', ''),
+//             new Employee(employeeNextId++,'Albert0', 'Grasu', 'rap@manele.com', 'Indecis', '1999-10-10', ''),
+//             new Employee(employeeNextId++,'Besleaga', 'Marin', 'marin@beseleaga.com', 'Barbat', '1989-12-10', ''),
 
-        ]
+//         ]
+//         localStorage.setItem(TABLE_DATA, JSON.stringify(employees));
+//         localStorage.setItem(TABLE_ROW_NEXT_ID, JSON.stringify(employeeNextId));
+//     }
 
-        localStorage.setItem(TABLE_DATA, JSON.stringify(employees));
-        localStorage.setItem(TABLE_ROW_NEXT_ID, JSON.stringify(employeeNextId));
-    }
-
-    populateTable(employees);
-    setDelete();
-}
+//     populateTable(employees);
+//     setDelete();
+// }
 
 function populateTable(employees) {
     var tableBody = document.getElementById("employees-table-body")
@@ -78,33 +77,35 @@ function populateTable(employees) {
     });
 }
 
-function addNewEmployee(){
+async function addNewEmployee(){
     var modal = document.getElementById("add-employee-modal");
 
-    employeeLastName = document.getElementById("nume-form").value;
-    employeeFristname = document.getElementById("prenume-form").value;
-    employeeEmail = document.getElementById("email-form").value;
-    employeeSex = document.getElementById("sex-form").value;
-    employeeBirthdate = document.getElementById("data-form").value;
+    var employeeLastName = document.getElementById("nume-form").value;
+    var employeeFristname = document.getElementById("prenume-form").value;
+    var employeeEmail = document.getElementById("email-form").value;
+    var employeeSex = document.getElementById("sex-form").value;
+    var employeeBirthdate = document.getElementById("data-form").value;
 
     // Populate table once the image is ready
 
-    if (validateEmployeeFields(employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate)) {
-        employeeId = JSON.parse(localStorage.getItem(TABLE_ROW_NEXT_ID));
-        allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA))
+    if (validateEmployeeFields(employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate, )) {
+        
+        var newEmployee = {
+            name : employeeLastName,
+            surname : employeeFristname,
+            email : employeeEmail,
+            sex : employeeSex,
+            birthdate : employeeBirthdate,
 
-        newEmployee = new Employee(employeeId++, employeeLastName, employeeFristname, employeeEmail, employeeSex, employeeBirthdate, '');
-        allEmployees.push(newEmployee);
-        // to do call method to sort items
+        }
+        const employeesRef = collection(db, "employees")
+        await addDoc(employeesRef ,newEmployee);
 
-        localStorage.setItem(TABLE_ROW_NEXT_ID, JSON.stringify(employeeId));
-        localStorage.setItem(TABLE_DATA, JSON.stringify(allEmployees));
-
-        maintainEmployeeOrder()
+       // maintainEmployeeOrder()
         resetModalForm();
     }
-    
 }
+
 
 // Initialize Firebase
 function setupFirebase() {
@@ -125,8 +126,8 @@ function Employee(employeeId, lastname, firstname, email, sex, birthdate, profil
 
 
 function previewProfilePicture(){
-    employeeProfilePicPreview = document.getElementById("profile-picture").files[0];
-    previewWrapper = document.querySelector('.preview-image-wrapper');
+    var employeeProfilePicPreview = document.getElementById("profile-picture").files[0];
+    var previewWrapper = document.querySelector('.preview-image-wrapper');
     var reader = new FileReader();
 
     // Populate table once the image is ready
@@ -202,13 +203,13 @@ function setDelete() {
 
 function deleteEmployeeRow(htmlDeleteElement) {
     if(confirm("Sunteti sigur ca doriti sa stergeti angajatul ? \n Aceasta actiune este ireversibila.")){
-        rowToBeDeleted = htmlDeleteElement.target.closest("tr");
+        var rowToBeDeleted = htmlDeleteElement.target.closest("tr");
 
-        employeeToDeleteId = rowToBeDeleted.getAttribute("employee-id");
+        var employeeToDeleteId = rowToBeDeleted.getAttribute("employee-id");
         rowToBeDeleted.remove();
 
-        allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA));
-        allEmployees = allEmployees.filter(e => e.employeeId != employeeToDeleteId);
+        var allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA));
+        var allEmployees = allEmployees.filter(e => e.employeeId != employeeToDeleteId);
 
         localStorage.setItem(TABLE_DATA, JSON.stringify(allEmployees));
     }
@@ -216,7 +217,7 @@ function deleteEmployeeRow(htmlDeleteElement) {
 
 //Sorts and re-prints whole table
 function maintainEmployeeOrder() {
-    allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA));
+    var allEmployees = JSON.parse(localStorage.getItem(TABLE_DATA));
 
     allEmployees.sort(compareNamesAsc);
     populateTable(allEmployees);
@@ -282,9 +283,9 @@ function validateEmployeeFields(employeeLastName, employeeFristname, employeeEma
 
 // https://www.codegrepper.com/code-examples/javascript/javascript+funtion+to+calculate+age+above+18
 function validateAgeAtLeast16(dateStr) {
-    birthdate = new Date(dateStr);
-    dateDifference = new Date(Date.now() - birthdate.getTime());
-    personAge = dateDifference.getUTCFullYear() - 1970;
+    var birthdate = new Date(dateStr);
+    var dateDifference = new Date(Date.now() - birthdate.getTime());
+    var personAge = dateDifference.getUTCFullYear() - 1970;
     
     return personAge >= 16;
 }
